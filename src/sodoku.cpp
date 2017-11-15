@@ -103,16 +103,43 @@ bool sdk_sol::SolFinder(int x, int y, int data )
 	if( this->isSafe(x,y,data) == false ) return false;
 	else this->arr[x][y] = data;
 
-	for(int j=x; j<9; j++ )
+	/* For the case when y has reached the endpoint fo a row i.e. its value is 8
+	 * then next element to be checked is at x+1,0, so manually resetting the values here
+	 */
+	int tmp_x, tmp_y;
+
+	if( y == 8)
 	{
-		for(int k=y+1; k<9; k++ )
+		tmp_x=x+1;
+		tmp_y=-1;
+	}
+	else
+	{
+		tmp_x = x;
+		tmp_y = y;
+	}
+
+	if( ( x == 2 ) && (y == 7 ) )
+	{
+		x = 2; y = 7;
+	}
+	else if(x == 3)
+	{
+		x = 3;
+	}
+
+
+	for(int j=tmp_x; j<9; j++ )
+	{
+		if( tmp_y == y ) tmp_y = -1;
+		for(int k=tmp_y+1; k<9; k++ )
 		{
 			if( this->arr[j][k] == 0)
 			{
 				int i;
 				for(i=1; i <=9; i++)
 				{
-					if( SolFinder(j,k,i) == true ) break;
+					if( SolFinder(j,k,i) == true ) return true;
 				}
 				/* If i has become 10 it means all numbers 1-9 were tried at
 				 * pos j,k of the array but nothing worked so backtrack to j,k-1
