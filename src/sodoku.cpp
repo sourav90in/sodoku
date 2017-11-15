@@ -108,6 +108,11 @@ bool sdk_sol::SolFinder(int x, int y, int data )
 	 */
 	int tmp_x, tmp_y;
 
+	/* For the case where givens aren't present at the end of the row
+	 * and the  col val y reaches 8.
+	 * The next elem to be checked is at x+1,0
+	 * setting tmp_y to -1 as k below sets it to tmp_y+1
+	 */
 	if( y == 8)
 	{
 		tmp_x=x+1;
@@ -119,18 +124,12 @@ bool sdk_sol::SolFinder(int x, int y, int data )
 		tmp_y = y;
 	}
 
-	if( ( x == 2 ) && (y == 7 ) )
-	{
-		x = 2; y = 7;
-	}
-	else if(x == 3)
-	{
-		x = 3;
-	}
-
 
 	for(int j=tmp_x; j<9; j++ )
 	{
+		/* For the case where givens are present at end of the row y
+		 * and the row increments and goes to the next row.
+		 */
 		if( tmp_y == y ) tmp_y = -1;
 		for(int k=tmp_y+1; k<9; k++ )
 		{
